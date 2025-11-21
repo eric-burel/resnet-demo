@@ -46,6 +46,19 @@ def denormalize(values: np.ndarray) -> np.ndarray:
     return values * 255.0
 
 
+def print_final_weights(model: tf.keras.Model) -> None:
+    """Display learned weights for each trainable layer."""
+    print("\nFinal weights:")
+    for layer in model.layers:
+        weights = layer.get_weights()
+        if not weights:
+            continue
+        print(f"  {layer.name}:")
+        for idx, weight in enumerate(weights):
+            squeezed = np.squeeze(weight)
+            print(f"    weight[{idx}] shape={weight.shape} values={squeezed}")
+
+
 def main() -> None:
     rng = np.random.default_rng(seed=42)
     train_inputs, train_targets = build_dataset(num_samples=64, rng=rng)
@@ -83,6 +96,8 @@ def main() -> None:
         start=len(history.history["loss"]) - 5,
     ):
         print(f"  Epoch {epoch + 1:2d}: loss={loss:.6f}, val_loss={val_loss:.6f}")
+
+    print_final_weights(model)
 
 
 if __name__ == "__main__":

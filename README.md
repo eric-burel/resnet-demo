@@ -13,3 +13,5 @@ uv run python increment_demo.py
 # or run the ResNet-style variant
 uv run python resnet_increment_demo.py
 ```
+
+Each script prints test metrics, sample predictions, and the final learned weights for every trainable layer so you can inspect the parameters directly.
